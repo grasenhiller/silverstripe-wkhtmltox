@@ -37,6 +37,7 @@ SS_WKHTMLTOX_PASSWORD
 
 ## Todo
 
+- Standard Optionen (auflösung, ...) für Bilder untersuchen
 - Statische Links ersetzen bei get_html (als Option)
 - Footer & Header (Dynamisch + HTML)
 - Stylesheets (user-style-sheet)
