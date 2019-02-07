@@ -1,0 +1,9 @@
+---
+Name: wkhtmltox-routes
+After:
+  - '#rootroutes'
+  - '#coreroutes'
+---
+#SilverStripe\Control\Director:
+#  rules:
+#    'teams//$Action/$ID/$Name': 'TeamController'

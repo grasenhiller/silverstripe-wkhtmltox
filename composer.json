@@ -1,0 +1,36 @@
+{
+  "name": "grasenhiller/silverstripe-wkhtmltox",
+  "description": "SilverStripe WkHtmlToX",
+  "homepage": "https://github.com/grasenhiller/silverstripe-wkhtmltox",
+  "keywords": [
+	"silverstripe",
+	"wkhtmltox",
+	"wkhtmltopdf",
+	"wkhtmltoimage",
+	"pdf",
+	"generate pdf",
+	"generate image"
+  ],
+  "license": "",
+  "type": "silverstripe-vendormodule",
+  "authors": [
+	{"name": "Benedikt Hofstaetter", "email": "bh@grasenhiller.de"}
+  ],
+  "support": {
+	"issues": "https://github.com/grasenhiller/silverstripe-wkhtmltox/issues"
+  },
+  "require": {
+	"silverstripe/framework": "^4",
+	"mikehaertl/phpwkhtmltopdf": "^2.3"
+  },
+  "autoload": {
+	"psr-4": {
+	  "Grasenhiller\\WkHtmlToX\\": "src/"
+	}
+  },
+  "extra": {
+	"installer-name": "silverstripe-wkhtmltox"
+  }
+}
+
+
