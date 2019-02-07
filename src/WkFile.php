@@ -2,14 +2,17 @@
 
 namespace Grasenhiller\WkHtmlToX;
 
+use SilverStripe\AssetAdmin\Controller\AssetAdmin;
+use SilverStripe\Assets\File;
 use SilverStripe\Assets\FileNameFilter;
 use SilverStripe\Assets\Folder;
+use SilverStripe\Assets\Image;
 use SilverStripe\Core\Environment;
 use SilverStripe\Security\Security;
 use SilverStripe\View\Requirements;
 use SilverStripe\View\SSViewer;
 
-class WkHelper {
+class WkFile {
 
 	protected $folder;
 	protected $options;
@@ -17,8 +20,8 @@ class WkHelper {
 	function __construct($type) {
 		$this->autoSetProxy();
 		$this->autoSetBinary($type);
+		$this->autoSetBasicAuth();
 	}
-
 
 	/**
 	 * Set the proxy if defined in the environment
@@ -47,6 +50,19 @@ class WkHelper {
 
 		if ($binary) {
 			$this->setOption('binary', $binary);
+		}
+	}
+
+	/**
+	 * Set the basic auth credentials if defined in the environment
+	 */
+	public function autoSetBasicAuth() {
+		$username = Environment::getEnv('SS_WKHTMLTOX_USERNAME');
+		$password = Environment::getEnv('SS_WKHTMLTOX_PASSWORD');
+
+		if ($username && $password) {
+			$this->setOption('username', $username);
+			$this->setOption('password', $password);
 		}
 	}
 
@@ -88,24 +104,19 @@ class WkHelper {
 	 * @return mixed
 	 */
 	protected function createFile(string $fileName, string $fileClass, array $extraData = []) {
-		$parts = explode('.', $fileName);
-		unset($parts[count($parts) - 1]);
-		$title = implode('.', $parts);
 		$folder = $this->getFolder();
 
-		$data = [
-			'Name' => $fileName,
-			'Title' => $title,
-			'ParentID' => $folder->ID,
-			'FileFilename' => $folder->Filename . $fileName,
-		];
+		$file = new $fileClass();
+		$file->setFromLocalFile('assets/' . $folder->Filename . $fileName);
+		$file->ParentID = $folder->ID;
 
-		if ($member = Security::getCurrentUser()) {
-			$data['OwnerID'] = $member->ID;
+		if (count($extraData)) {
+			$file->update($extraData);
 		}
 
-		$file = $fileClass::create(array_merge($data, $extraData));
 		$file->write();
+
+		AssetAdmin::singleton()->generateThumbnails($file);
 
 		return $file;
 	}
@@ -241,5 +252,18 @@ class WkHelper {
 		foreach ($options as $option) {
 			$this->removeOption($option);
 		}
+	}
+
+	/**
+	 * Output the error
+	 *
+	 * @param $wkObj
+	 */
+	protected function handleError($wkObj) {
+		// todo: if dev or test output with print_r, else log
+		$error = $wkObj->getError();
+		echo '<pre>';
+		print_r($error);
+		die();
 	}
 }

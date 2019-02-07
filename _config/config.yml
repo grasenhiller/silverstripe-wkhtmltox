@@ -58,3 +58,10 @@ Grasenhiller\WkHtmlToX:
         page-width: 148mm
         page-height: 105mm
   Image:
+    options:
+      global:
+        0: transparent
+        format: jpg
+        quality: 100
+#        height:
+#        width:

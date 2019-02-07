@@ -25,9 +25,20 @@ SS_PROXY="http://user:password@192.168.1.2:8080"
 SS_WKHTMLTOPDF_BINARY
 SS_WKHTMLTOIMAGE_BINARY
 
+## Baisc Auth
+
+#### Global
+
+SS_WKHTMLTOX_USERNAME
+SS_WKHTMLTOX_PASSWORD
+
+
+#### Specific
+
 ## Todo
 
 - Statische Links ersetzen bei get_html (als Option)
 - Footer & Header (Dynamisch + HTML)
 - Stylesheets (user-style-sheet)
-- Image
+- Kommentare durchgehen
+- README!

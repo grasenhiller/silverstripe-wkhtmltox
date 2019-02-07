@@ -6,7 +6,7 @@ use mikehaertl\wkhtmlto\Pdf as WkPdfOriginal;
 use SilverStripe\Assets\File;
 use SilverStripe\Core\Config\Config;
 
-class WkPdf extends WkHelper {
+class WkPdf extends WkFile {
 
 	private $pdf;
 
@@ -77,7 +77,7 @@ class WkPdf extends WkHelper {
 	 * @return \SilverStripe\ORM\FieldType\DBHTMLText
 	 */
 	public static function get_html($obj, array $variables = [], string $template = '', string $type = 'Pdf') {
-		return parent::get_html($obj, $variables, $template, $type);
+		return parent::get_html($obj, $variables, $template, 'Pdf');
 	}
 
 	/**
@@ -160,19 +160,6 @@ class WkPdf extends WkHelper {
 		} else {
 			return $string;
 		}
-	}
-
-	/**
-	 * Output the error
-	 *
-	 * @param WkPdfOriginal $pdf
-	 */
-	protected function handleError(WkPdfOriginal $pdf) {
-		// todo: if dev or test output with print_r, else log
-		$error = $pdf->getError();
-		echo '<pre>';
-		print_r($error);
-		die();
 	}
 
 	/**
