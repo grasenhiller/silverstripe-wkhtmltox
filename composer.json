@@ -11,7 +11,7 @@
 	"generate pdf",
 	"generate image"
   ],
-  "license": "",
+  "license": "BSD-3-Clause",
   "type": "silverstripe-vendormodule",
   "authors": [
 	{"name": "Benedikt Hofstaetter", "email": "bh@grasenhiller.de"}
