@@ -3,28 +3,46 @@
 namespace Grasenhiller\WkHtmlToX;
 
 use mikehaertl\wkhtmlto\Pdf as WkPdfOriginal;
+use SilverStripe\Assets\File;
 use SilverStripe\Core\Config\Config;
 
-class WkPdf {
+class WkPdf extends WkHelper {
 
-	private $options;
 	private $pdf;
 
-	function __construct($options = [], $pageSize = 'A4', $orientation = 'Portrait') {
+	/**
+	 * WkPdf constructor.
+	 *
+	 * @param string $pageSize
+	 * @param string $orientation
+	 * @param array  $options
+	 */
+	function __construct(string $pageSize = 'A4', string $orientation = 'Portrait', array $options = []) {
+		$config = Config::inst()->get('Grasenhiller\WkHtmlToX', 'Pdf');
+
 		if (!count($options)) {
-			$config = Config::inst()->get('Grasenhiller\WkHtmlToX', 'Pdf');
+			$defaultOptionsInUse = true;
 			$options = $config['options']['global'];
+		} else {
+			$defaultOptionsInUse = false;
 		}
 
 		if ($pageSize && $orientation && isset($config['options'][$pageSize . $orientation])) {
 			$specificOptions = $config['options'][$pageSize . $orientation];
-			$options = array_merge($options, $specificOptions);
+
+			if ($defaultOptionsInUse) {
+				$options = array_merge($options, $specificOptions);
+			} else {
+				$options = array_merge($specificOptions, $options);
+			}
 		} else {
-			// todo: log that no options for those values are stored
+			$this->handleMissingYmlConfig($pageSize, $orientation);
 		}
 
-		$this->options = $options;
-		$this->pdf = new WkPdfOriginal($options);
+		$this->setPdf(new WkPdfOriginal());
+		$this->setOptions($options);
+
+		parent::__construct('pdf');
 	}
 
 	/**
@@ -42,73 +60,129 @@ class WkPdf {
 	}
 
 	/**
-	 * @return array
-	 */
-	public function getOptions() {
-		return $this->options;
-	}
-
-	/**
 	 * @param array $options
 	 */
 	public function setOptions(array $options) {
-		$this->options = $options;
-		$this->pdf->setOptions($options);
+		parent::setOptions($options);
+
+		$this->getPdf()->setOptions($options);
 	}
 
 	/**
-	 * @param string $option
+	 * @param        $obj
+	 * @param array  $variables
+	 * @param string $template
+	 * @param string $type 'Pdf' or 'Image'
+	 *
+	 * @return \SilverStripe\ORM\FieldType\DBHTMLText
+	 */
+	public static function get_html($obj, array $variables = [], string $template = '', string $type = 'Pdf') {
+		return parent::get_html($obj, $variables, $template, $type);
+	}
+
+	/**
+	 * Add a page to the pdf
+	 *
+	 * @param string $content HTML code or an url
+	 * @param string $type valid values are 'Page', 'Cover' and 'Toc'
+	 * @param array  $options
+	 */
+	public function add(string $content, string $type = 'Page', array $options = []) {
+		$pdf = $this->getPdf();
+
+		if ($type == 'Page') {
+			$pdf->addPage($content, $options);
+		} else if ($type == 'Cover') {
+			$pdf->addCover($content, $options);
+		} else if ($type == 'Toc') {
+			$pdf->addToc();
+		}
+
+		$this->setPdf($pdf);
+	}
+
+	/**
+	 * display the pdf inside the browser
+	 */
+	public function preview() {
+		$pdf = $this->getPdf();
+
+		if(!$pdf->send()) {
+			$this->handleError($pdf);
+		}
+	}
+
+	/**
+	 * Force the pdf to download
+	 *
+	 * @param string $fileName
+	 */
+	public function download(string $fileName) {
+		$pdf = $this->getPdf();
+
+		if(!$pdf->send($this->generateValidFileName($fileName, 'pdf'))) {
+			$this->handleError($pdf);
+		}
+	}
+
+	/**
+	 * Save it to  the filesystem and return the file
+	 *
+	 * @param string $fileName
+	 * @param string $fileClass
+	 * @param array  $extraData
 	 *
 	 * @return mixed
 	 */
-	public function getOption(string $option) {
-		$options = $this->getOptions();
+	public function save(string $fileName, string $fileClass = File::class, array $extraData = []) {
+		$pdf = $this->getPdf();
+		$fileName = $this->generateValidFileName($fileName, 'pdf');
+		$serverPath = $this->getServerPath();
 
-		if (isset($options[$option])) {
-			return $options[$option];
-		}
-	}
-
-	/**
-	 * @param string $option
-	 * @param string|int|bool   $value
-	 */
-	public function setOption(string $option, $value = false) {
-		$options = $this->getOptions();
-
-		if ($value) {
-			$options[$option] = $value;
+		if (!$pdf->saveAs($serverPath . $fileName)) {
+			$this->handleError($pdf);
 		} else {
-			if (!in_array($option, $options)) {
-				$options[] = $option;
-			}
+			return $this->createFile($fileName, $fileClass, $extraData);
 		}
-
-		$this->options = $options;
-		$this->pdf->setOptions($options);
 	}
 
 	/**
-	 * @param string $option
+	 * Get the raw pdf as string
+	 *
+	 * @return bool|string
 	 */
-	public function removeOption(string $option) {
-		$options = $this->getOptions();
+	public function getAsString() {
+		$pdf = $this->getPdf();
+		$string = $pdf->toString();
 
-		if (isset($options[$option])) {
-			unset($options[$option]);
-		} else if ($key = array_search($option, $options)) {
-			unset($options[$key]);
+		if ($string === false) {
+			$this->handleError($pdf);
+		} else {
+			return $string;
 		}
-
-		$this->setOptions($options);
 	}
 
 	/**
-	 * @param array $options
+	 * Output the error
+	 *
+	 * @param WkPdfOriginal $pdf
 	 */
-	public function removeOptions(array $options) {
-		foreach ($options as $option) {
-			$this->removeOption($option);
-		}
+	protected function handleError(WkPdfOriginal $pdf) {
+		// todo: if dev or test output with print_r, else log
+		$error = $pdf->getError();
+		echo '<pre>';
+		print_r($error);
+		die();
+	}
+
+	/**
+	 * @param string $pageSize
+	 * @param string $orientation
+	 */
+	public function handleMissingYmlConfig($pageSize, $orientation) {
+		// todo: if dev or test output with print_r, else log
+		echo 'Your desired yml configuration does not exist<br>';
+		echo 'Please create it "Grasenhiller\WkHtmlToX.Pdf.options.' . $pageSize . $orientation . '"';
+		die();
 	}
 }
