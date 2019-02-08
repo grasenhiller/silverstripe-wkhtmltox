@@ -1,6 +1,6 @@
 {
   "name": "grasenhiller/silverstripe-wkhtmltox",
-  "description": "SilverStripe WkHtmlToX",
+  "description": "Create pdfs and images out of SilverStripe with WkHtmlToX",
   "homepage": "https://github.com/grasenhiller/silverstripe-wkhtmltox",
   "keywords": [
 	"silverstripe",
@@ -9,7 +9,9 @@
 	"wkhtmltoimage",
 	"pdf",
 	"generate pdf",
-	"generate image"
+	"generate image",
+	"create pdf",
+	"create image"
   ],
   "license": "BSD-3-Clause",
   "type": "silverstripe-vendormodule",

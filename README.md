@@ -1,10 +1,6 @@
-WARNING! WIP!
-
--------------------
-
 # SilverStripe WkHtmlToX
 
-Create PDFs and Images from HTML or URLs in SilverStripe. Based on [WkHtmlToPdf](http://wkhtmltopdf.org/) and [mikehaertl's php wrapper](https://github.com/mikehaertl/phpwkhtmltopdf).
+Create pdfs and images out of SilverStripe with WkHtmlToX. Based on [WkHtmlToPdf](http://wkhtmltopdf.org/) and [mikehaertl's php wrapper](https://github.com/mikehaertl/phpwkhtmltopdf).
 
 ## Installation
 
@@ -29,9 +25,10 @@ http://your-website.tld/gh-wkhtmltox/
 SS_WKHTMLTOPDF_BINARY
 SS_WKHTMLTOIMAGE_BINARY
 
-tar -xjvf vendor/grasenhiller/silverstripe-wkhtmltox/wkhtmltox_binaries.tar.bz2 -C vendor/silverstripe-wkhtmltox-binaries/
-chmod 755 vendor/silverstripe-wkhtmltox-binaries/wkhtmltopdf
-chmod 755 vendor/silverstripe-wkhtmltox-binaries/wkhtmltoimage
+mkdir ~/wkhtmltox
+tar -xjvf vendor/grasenhiller/silverstripe-wkhtmltox/wkhtmltox_binaries.tar.bz2 -C ~/wkhtmltox
+chmod 755 ~/wkhtmltox/wkhtmltopdf
+chmod 755 ~/wkhtmltox/wkhtmltoimage
  
 ## Baisc Auth
 
