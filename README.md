@@ -29,6 +29,10 @@ http://your-website.tld/gh-wkhtmltox/
 SS_WKHTMLTOPDF_BINARY
 SS_WKHTMLTOIMAGE_BINARY
 
+tar -xjvf vendor/grasenhiller/silverstripe-wkhtmltox/wkhtmltox_binaries.tar.bz2 -C vendor/silverstripe-wkhtmltox-binaries/
+chmod 755 vendor/silverstripe-wkhtmltox-binaries/wkhtmltopdf
+chmod 755 vendor/silverstripe-wkhtmltox-binaries/wkhtmltoimage
+ 
 ## Baisc Auth
 
 ## Header & footer
