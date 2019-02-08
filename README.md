@@ -29,6 +29,9 @@ mkdir ~/wkhtmltox
 tar -xjvf vendor/grasenhiller/silverstripe-wkhtmltox/wkhtmltox_binaries.tar.bz2 -C ~/wkhtmltox
 chmod 755 ~/wkhtmltox/wkhtmltopdf
 chmod 755 ~/wkhtmltox/wkhtmltoimage
+
+SS_WKHTMLTOPDF_BINARY='/absolute/path/to/wkhtmltox/wkhtmltopdf'
+SS_WKHTMLTOIMAGE_BINARY='/absolute/path/to/wkhtmltox/wkhtmltoimage'
  
 ## Baisc Auth
 
@@ -55,9 +58,56 @@ h1 {
 
 px & dpi
 
+## WkFile
+setFolder()
+get_html()
+replace_img_paths()
+
+getOptions()
+setOptions()
+getOption()
+setOption()
+removeOption()
+removeOptions()
+
+## WkImage
+add()
+construct
+
+## WkPdf
+add()
+construct
+
+## WkImage + WkPdf
+preview()
+download()
+save()
+getAsString()
+
+## WkController
+- docs
+- demo
+- header + hook
+- footer + hook
+
+## Config
+- pdf global
+- pdf "pages" predefined + custom
+- image global + custom
+
+## templates
+html!
+
 ## Todo
 
+- Set Options setz mehrere optionen + set / get global options
 - Statische Links ersetzen bei get_html (als Option)
 - Stylesheets (user-style-sheet)
 - Kommentare durchgehen
 - README!
+- IDE Annotation
+
+## Known Bugs
+
+- Header / Footer can't be loaded
+

@@ -16,10 +16,10 @@ class WkController extends Controller {
 		'index' => 'ADMIN',
 		'pdf' => 'ADMIN',
 		'image' => 'ADMIN',
-		'header',
-		'footer',
 		'demoPdf' => 'ADMIN',
 		'demoImage' => 'ADMIN',
+		'header',
+		'footer',
 	];
 
 	public function AbsoluteLink($action = null) {
@@ -38,7 +38,6 @@ class WkController extends Controller {
 			echo $command->getOutput();
 		} else {
 			echo $command->getError();
-			$exitCode = $command->getExitCode();
 		}
 	}
 
@@ -54,7 +53,6 @@ class WkController extends Controller {
 			echo $command->getOutput();
 		} else {
 			echo $command->getError();
-			$exitCode = $command->getExitCode();
 		}
 	}
 

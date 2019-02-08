@@ -14,12 +14,28 @@ class WkImage extends WkFile {
 	 * WkImage constructor.
 	 *
 	 * @param array $options
+	 * @param null  $customConfig
 	 */
-	function __construct(array $options = []) {
+	function __construct(array $options = [], $customConfig = null) {
 		$config = Config::inst()->get('Grasenhiller\WkHtmlToX', 'Image');
 
 		if (!count($options)) {
 			$options = $config['options']['global'];
+			$defaultOptionsInUse = true;
+		} else {
+			$defaultOptionsInUse = false;
+		}
+
+		if ($customConfig && isset($config['options'][$customConfig])) {
+			$specificOptions = $config['options'][$customConfig];
+
+			if ($defaultOptionsInUse) {
+				$options = array_merge($options, $specificOptions);
+			} else {
+				$options = array_merge($specificOptions, $options);
+			}
+		} else if ($customConfig) {
+			$this->handleMissingYmlConfig($customConfig, 'forWkImage');
 		}
 
 		$this->setImage(new WkImageOriginal());

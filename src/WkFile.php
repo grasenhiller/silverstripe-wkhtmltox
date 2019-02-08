@@ -3,13 +3,10 @@
 namespace Grasenhiller\WkHtmlToX;
 
 use SilverStripe\AssetAdmin\Controller\AssetAdmin;
-use SilverStripe\Assets\File;
 use SilverStripe\Assets\FileNameFilter;
 use SilverStripe\Assets\Folder;
-use SilverStripe\Assets\Image;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Environment;
-use SilverStripe\Security\Security;
 use SilverStripe\View\Requirements;
 use SilverStripe\View\SSViewer;
 
@@ -280,6 +277,26 @@ class WkFile {
 		$error = $wkObj->getError();
 		echo '<pre>';
 		print_r($error);
+		die();
+	}
+
+
+	/**
+	 * @param string $pageSize
+	 * @param string $orientation
+	 */
+	public function handleMissingYmlConfig($pageSize, $orientation) {
+		$type = 'Pdf';
+		$string = $pageSize . $orientation;
+
+		if ($orientation == 'forWkImage') {
+			$type = 'Image';
+			$string = $pageSize;
+		}
+
+		// todo: if dev or test output with print_r, else log
+		echo 'Your desired yml configuration does not exist<br>';
+		echo 'Please create it "Grasenhiller\WkHtmlToX.' . $type . '.options.' . $string . '"';
 		die();
 	}
 }

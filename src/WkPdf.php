@@ -161,15 +161,4 @@ class WkPdf extends WkFile {
 			return $string;
 		}
 	}
-
-	/**
-	 * @param string $pageSize
-	 * @param string $orientation
-	 */
-	public function handleMissingYmlConfig($pageSize, $orientation) {
-		// todo: if dev or test output with print_r, else log
-		echo 'Your desired yml configuration does not exist<br>';
-		echo 'Please create it "Grasenhiller\WkHtmlToX.Pdf.options.' . $pageSize . $orientation . '"';
-		die();
-	}
 }
