@@ -7,6 +7,7 @@ use SilverStripe\Assets\File;
 use SilverStripe\Assets\FileNameFilter;
 use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\Image;
+use SilverStripe\Control\Director;
 use SilverStripe\Core\Environment;
 use SilverStripe\Security\Security;
 use SilverStripe\View\Requirements;
@@ -182,6 +183,21 @@ class WkFile {
 	}
 
 	/**
+	 * Replace all relative image paths with absolute ones
+	 *
+	 * @param $html
+	 *
+	 * @return mixed
+	 */
+	public static function replace_img_paths($html) {
+		$baseUrl = Director::absoluteBaseURL();
+		$html = str_ireplace('<img src="', '<img src="http://REPLACEHOLDER', $html);
+		$html = str_ireplace('<img src="http://REPLACEHOLDERhtt', '<img src="htt', $html);
+		$html = str_ireplace('<img src="http://REPLACEHOLDER', '<img src="' . $baseUrl, $html);
+		return $html;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function getOptions() {
@@ -222,7 +238,7 @@ class WkFile {
 		if ($value) {
 			$options[$option] = $value;
 		} else {
-			if (!in_array($option, $options)) {
+			if (!in_array($option, $options, true)) {
 				$options[] = $option;
 			}
 		}

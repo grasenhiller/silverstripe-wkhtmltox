@@ -20,6 +20,10 @@ $ composer require grasenhiller/silverstripe-wkhtmltox
 
 SS_PROXY="http://user:password@192.168.1.2:8080"
 
+## Options
+
+http://your-website.tld/gh-wkhtmltox/
+
 ## Binary
 
 SS_WKHTMLTOPDF_BINARY
@@ -27,19 +31,32 @@ SS_WKHTMLTOIMAGE_BINARY
 
 ## Baisc Auth
 
+## Header & footer
+gh-wkhtmltox/header
+gh-wkhtmltox/footer
+$all_variables + variables from docs
+
 #### Global
 
 SS_WKHTMLTOX_USERNAME
 SS_WKHTMLTOX_PASSWORD
 
-
 #### Specific
+
+## Helpful
+
+viewport-size
+zoom 1.045
+window-status
+h1 {
+  page-break-before: always;
+}
+
+px & dpi
 
 ## Todo
 
-- Standard Optionen (auflösung, ...) für Bilder untersuchen
 - Statische Links ersetzen bei get_html (als Option)
-- Footer & Header (Dynamisch + HTML)
 - Stylesheets (user-style-sheet)
 - Kommentare durchgehen
 - README!

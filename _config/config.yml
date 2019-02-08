@@ -10,8 +10,8 @@ Grasenhiller\WkHtmlToX:
         1: enable-javascript
         2: disable-smart-shrinking
         encoding: UTF-8
-        image-quality: 100
         dpi: 72
+        image-quality: 100
         image-dpi: 72
         margin-bottom: 0
         margin-left: 0
@@ -20,48 +20,31 @@ Grasenhiller\WkHtmlToX:
       A3Portrait:
         page-size: A3
         orientation: Portrait
-        page-width: 297mm
-        page-height: 420mm
       A3Landscape:
         page-size: A3
         orientation: Landscape
-        page-width: 420mm
-        page-height: 297mm
       A4Portrait:
         page-size: A4
         orientation: Portrait
-        page-width: 210mm
-        page-height: 297mm
       A4Landscape:
         page-size: A4
         orientation: Landscape
-        page-width: 297mm
-        page-height: 210mm
       A5Portrait:
         page-size: A5
         orientation: Portrait
-        page-width: 148mm
-        page-height: 210mm
       A5Landscape:
         page-size: A5
         orientation: Landscape
-        page-width: 210mm
-        page-height: 148mm
       A6Portrait:
         page-size: A6
         orientation: Portrait
-        page-width: 105mm
-        page-height: 148mm
       A6Landscape:
         page-size: A6
         orientation: Landscape
-        page-width: 148mm
-        page-height: 105mm
   Image:
     options:
       global:
         0: transparent
-        format: jpg
+        1: disable-smart-width
+        format: png
         quality: 100
-#        height:
-#        width:

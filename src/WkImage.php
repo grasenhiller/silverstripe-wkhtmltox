@@ -83,6 +83,8 @@ class WkImage extends WkFile {
 		if(!$image->send()) {
 			$this->handleError($image);
 		}
+
+		die();
 	}
 
 	/**
@@ -91,7 +93,7 @@ class WkImage extends WkFile {
 	 * @param string $fileName
 	 * @param string $extension
 	 */
-	public function download(string $fileName, string $extension = 'jpg') {
+	public function download(string $fileName, string $extension = 'png') {
 		$image = $this->getImage();
 
 		if(!$image->send($this->generateValidFileName($fileName, $extension))) {
@@ -109,7 +111,7 @@ class WkImage extends WkFile {
 	 *
 	 * @return mixed
 	 */
-	public function save(string $fileName, string $extension = 'jpg', string $fileClass = Image::class, array $extraData = []) {
+	public function save(string $fileName, string $extension = 'png', string $fileClass = Image::class, array $extraData = []) {
 		$image = $this->getImage();
 		$fileName = $this->generateValidFileName($fileName, $extension);
 		$serverPath = $this->getServerPath();

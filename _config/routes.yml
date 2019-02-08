@@ -4,6 +4,6 @@ After:
   - '#rootroutes'
   - '#coreroutes'
 ---
-#SilverStripe\Control\Director:
-#  rules:
-#    'teams//$Action/$ID/$Name': 'TeamController'
+SilverStripe\Control\Director:
+  rules:
+    'gh-wkhtmltox//$Action/$ID/$Name': 'Grasenhiller\WkHtmlToX\WkController'

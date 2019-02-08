@@ -17,7 +17,7 @@ class WkPdf extends WkFile {
 	 * @param string $orientation
 	 * @param array  $options
 	 */
-	function __construct(string $pageSize = 'A4', string $orientation = 'Portrait', array $options = []) {
+	function __construct(string $pageSize = null, string $orientation = null, array $options = []) {
 		$config = Config::inst()->get('Grasenhiller\WkHtmlToX', 'Pdf');
 
 		if (!count($options)) {
@@ -35,7 +35,7 @@ class WkPdf extends WkFile {
 			} else {
 				$options = array_merge($specificOptions, $options);
 			}
-		} else {
+		} else if ($pageSize && $orientation) {
 			$this->handleMissingYmlConfig($pageSize, $orientation);
 		}
 
@@ -95,7 +95,7 @@ class WkPdf extends WkFile {
 		} else if ($type == 'Cover') {
 			$pdf->addCover($content, $options);
 		} else if ($type == 'Toc') {
-			$pdf->addToc();
+			$pdf->addToc($options);
 		}
 
 		$this->setPdf($pdf);
