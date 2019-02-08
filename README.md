@@ -4,13 +4,13 @@ Create pdfs and images out of SilverStripe with WkHtmlToX. Based on [WkHtmlToPdf
 
 ## Installation
 
-#### SilverStripe Module
+### SilverStripe Module
 
 ``` sh
 $ composer require grasenhiller/silverstripe-wkhtmltox
 ```
 
-#### WkHtmlToX Binaries
+### WkHtmlToX Binaries
 
 [WKHtmlToPdf](http://wkhtmltopdf.org/) must be installed on your server to use this module.
 If it's not, you can try to use the provided binaries (v. 0.12.5). To do so, at first login via SSH and go into your home directory.
@@ -83,14 +83,14 @@ TBD
 
 These methods work with ``new WkPdf()`` and ``new WkImage()``
 
-#### Set folder where files should be saved
+### Set folder where files should be saved
 
 ```php
 $pdf = new WkPdf();
 $pdf->setFolder('folder/beneath/assets/to/save');
 ```
 
-#### Generate html from SilverStripe templates
+### Generate html from SilverStripe templates
 
 - **$obj**: The dataobject or page you want to render
 - **$variables**: An array with extra data (optional)
@@ -101,7 +101,7 @@ $pdf = new WkPdf();
 $html = $pdf::get_html($obj, $variables = [], $template = '');
 ```
 
-#### Replace relative image links
+### Replace relative image links
 
 HTMLEditorFields normally don't store image links with absolute links.
 But WkHtmlToX needs absolute links to work. So just replace them with this method. 
@@ -112,7 +112,7 @@ $html = $pdf::get_html($obj);
 $html = $pdf::replace_img_paths($html);
 ```
 
-#### Get options the pdf or image will be created with
+### Get options the pdf or image will be created with
 
 Get all options
 
@@ -132,14 +132,14 @@ echo $pdf->getOption('name_of_option');
 die();
 ```
 
-#### Set (new) or remove (existing) options
+### Set (new) or remove (existing) options
 
 setOptions()
 setOption()
 removeOption()
 removeOptions()
 
-#### Overwrite global options
+### Overwrite global options
 
 
 
@@ -157,7 +157,7 @@ gh-wkhtmltox/footer
 $all_variables + variables from docs
 
 
-#### Specific basic auth
+### Specific basic auth
 
 ## Helpful
 
