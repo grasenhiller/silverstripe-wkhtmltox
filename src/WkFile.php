@@ -6,6 +6,7 @@ use SilverStripe\AssetAdmin\Controller\AssetAdmin;
 use SilverStripe\Assets\FileNameFilter;
 use SilverStripe\Assets\Folder;
 use SilverStripe\Control\Director;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Environment;
 use SilverStripe\View\Requirements;
 use SilverStripe\View\SSViewer;
@@ -23,12 +24,17 @@ class WkFile {
 
 	/**
 	 * Set the proxy if defined in the environment
+	 * and bypass proxy for own site
 	 */
 	public function autoSetProxy() {
 		$proxy = Environment::getEnv('SS_PROXY');
 
 		if ($proxy) {
 			$this->setOption('proxy', $proxy);
+		}
+
+		if (Config::inst()->get('Grasenhiller\WkHtmlToX', 'bypass_proxy_for_own_site')) {
+			$this->setOption('bypass-proxy-for', rtrim(str_replace(['http://', 'https://'], ['', ''], Director::absoluteBaseURL()), '/'));
 		}
 	}
 

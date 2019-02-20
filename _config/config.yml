@@ -3,6 +3,7 @@ Name: wkhtmltox
 Before: app
 ---
 Grasenhiller\WkHtmlToX:
+  bypass_proxy_for_own_site: true
   Pdf:
     options:
       global:

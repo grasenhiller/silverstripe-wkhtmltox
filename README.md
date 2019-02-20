@@ -194,6 +194,7 @@ getAsString()
 - pdf global
 - pdf "pages" predefined + custom
 - image global + custom
+- bypass_proxy_for_own_site
 
 ## templates
 html!
