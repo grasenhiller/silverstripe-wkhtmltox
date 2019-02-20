@@ -70,7 +70,7 @@ class WkController extends Controller {
 			$vars['flush']
 		);
 
-		if (isset($vars['page']) && strpos($vars['page'], '§ion=') !== -1) {
+		if (isset($vars['page']) && strpos($vars['page'], '§ion=') !== false) {
 			$parts = explode('§', $vars['page']);
 			$vars['page'] = $parts[0];
 			$vars['section'] = str_replace('ion=', '', $parts[1]);
