@@ -2,12 +2,14 @@
 
 namespace Grasenhiller\WkHtmlToX;
 
+use SilverStripe\Assets\Storage\AssetStore;
 use SilverStripe\AssetAdmin\Controller\AssetAdmin;
 use SilverStripe\Assets\FileNameFilter;
 use SilverStripe\Assets\Folder;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Environment;
+use SilverStripe\Core\Path;
 use SilverStripe\View\Requirements;
 use SilverStripe\View\SSViewer;
 
@@ -111,7 +113,10 @@ class WkFile {
 		$folder = $this->getFolder();
 
 		$file = new $fileClass();
-		$file->setFromLocalFile('assets/' . $folder->Filename . $fileName);
+		$file->setFromLocalFile(
+			$this->getServerPath() . $fileName,
+			$folder->getFilename() . $fileName
+		);
 		$file->ParentID = $folder->ID;
 
 		if (count($extraData)) {
@@ -130,9 +135,10 @@ class WkFile {
 	 */
 	public function setFolder(string $folderName = 'wkhtmltox') {
 		$this->folder = Folder::find_or_make($folderName);
+		$path = $this->getServerPath();
 
-		if (!file_exists($this->getServerPath())) {
-			mkdir($this->getServerPath(), 0777, true);
+		if (!file_exists($path)) {
+			mkdir($path, 0777, true);
 		}
 	}
 
@@ -151,7 +157,9 @@ class WkFile {
 	 * @return string
 	 */
 	public function getServerPath() {
-		return getcwd() . DIRECTORY_SEPARATOR . ASSETS_DIR . DIRECTORY_SEPARATOR . $this->getFolder()->getFileName();
+		return Path::normalise(
+			ASSETS_PATH . DIRECTORY_SEPARATOR . $this->getFolder()->getFilename()
+		);
 	}
 
 	/**
