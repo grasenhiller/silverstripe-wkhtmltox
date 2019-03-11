@@ -168,7 +168,7 @@ class WkFile {
 		if (!$template) {
 			$parts = explode('\\', $obj->ClassName);
 
-			if (count($parts > 1)) {
+			if (count($parts) > 1) {
 				$last = $parts[count($parts) - 1];
 				unset($parts[count($parts) - 1]);
 				$parts[] = $type;
