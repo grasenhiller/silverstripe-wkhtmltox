@@ -131,18 +131,28 @@ class WkPdf extends WkFile {
 	 * @param string $fileName
 	 * @param string $fileClass
 	 * @param array  $extraData
+	 * @param bool $unlinkOnCreate
 	 *
 	 * @return mixed
 	 */
-	public function save(string $fileName, string $fileClass = File::class, array $extraData = []) {
+	public function save(
+		string $fileName, 
+		string $fileClass = File::class, 
+		array $extraData = [], 
+		bool $unlinkOnCreate = false
+	) {
 		$pdf = $this->getPdf();
 		$fileName = $this->generateValidFileName($fileName, 'pdf');
-		$serverPath = $this->getServerPath();
+		$serverPath = $this->getServerPath(true);
 
 		if (!$pdf->saveAs($serverPath . $fileName)) {
 			$this->handleError($pdf);
 		} else {
-			return $this->createFile($fileName, $fileClass, $extraData);
+			$file = $this->createFile($fileName, $fileClass, $extraData);
+			if ($file && $unlinkOnCreate) {
+				@unlink($serverPath . $fileName);
+			}
+			return $file;
 		}
 	}
 
