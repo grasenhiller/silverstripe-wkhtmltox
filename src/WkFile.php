@@ -114,7 +114,7 @@ class WkFile {
 
 		$file = new $fileClass();
 		$file->setFromLocalFile(
-			$this->getServerPath() . $fileName,
+			$this->getServerPath(true) . $fileName,
 			$folder->getFilename() . $fileName
 		);
 		$file->ParentID = $folder->ID;
@@ -154,12 +154,15 @@ class WkFile {
 	}
 
 	/**
+	 * @param $trailSlash
+	 * 
 	 * @return string
 	 */
-	public function getServerPath() {
-		return Path::normalise(
+	public function getServerPath(bool $trailSlash = false) {
+		$path = Path::normalise(
 			ASSETS_PATH . DIRECTORY_SEPARATOR . $this->getFolder()->getFilename()
 		);
+		return $trailSlash ? $path . DIRECTORY_SEPARATOR : $path;
 	}
 
 	/**
@@ -176,7 +179,7 @@ class WkFile {
 		if (!$template) {
 			$parts = explode('\\', $obj->ClassName);
 
-			if (count($parts > 1)) {
+			if (count($parts) > 1) {
 				$last = $parts[count($parts) - 1];
 				unset($parts[count($parts) - 1]);
 				$parts[] = $type;
