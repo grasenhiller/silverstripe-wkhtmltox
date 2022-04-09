@@ -184,7 +184,7 @@ class WkController extends Controller {
 			'Bar' => 'World',
 		];
 
-		$html = $image::get_html($this, $variables,'Grasenhiller\WkHtmlToX\Image', 'Pdf');
+		$html = $image::get_html($this, $variables,'Grasenhiller\WkHtmlToX\Image', 'Image');
 		$html = $image::replace_img_paths($html);
 
 		$image->add($html);
