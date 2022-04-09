@@ -151,7 +151,7 @@ class WkController extends Controller {
 			'Bar' => 'World',
 		];
 
-		$html = $pdf::get_html($this, $variables,'Grasenhiller\WkHtmlToX\Image');
+		$html = $pdf::get_html($this, $variables,'Grasenhiller\WkHtmlToX\Image', 'Pdf');
 		$html = $pdf::replace_img_paths($html);
 
 		$pdf->add($html);
@@ -184,7 +184,7 @@ class WkController extends Controller {
 			'Bar' => 'World',
 		];
 
-		$html = $image::get_html($this, $variables,'Grasenhiller\WkHtmlToX\Image');
+		$html = $image::get_html($this, $variables,'Grasenhiller\WkHtmlToX\Image', 'Pdf');
 		$html = $image::replace_img_paths($html);
 
 		$image->add($html);
